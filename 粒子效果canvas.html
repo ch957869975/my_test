@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>粒子背景特效</title>
+
+    <script src="./js/jquery.js"></script>
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        canvas {
+            background: black;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas width="100%" height="100%"></canvas>
+</body>
+
+</html>
+<script>
+    $(function () {
+        var timer = null;
+        var $canvas = $('canvas');
+        var width;
+        var height;
+        var mouseX = -1;
+        var mouseY = -1;
+        var pointArry = [];
+        var zoom;//页面的缩放比
+        mainBgFullScreen();
+        window.addEventListener('resize', function () {
+            if (timer) {
+                window.cancelAnimationFrame(timer);
+            }
+            mainBgFullScreen();
+        });
+        //初始化canvas全屏
+        function mainBgFullScreen() {
+            width = $(':root').width();
+            height = $(':root').height();
+            zoom = getZoom();
+            $canvas.attr('width', width);
+            $canvas.attr('height', height);
+            pointArry.splice(0, pointArry.length);
+            //开始先放200个点
+            for (var i = 0; i < ~~(200 * zoom); i++) {
+                pointArry.push(creatPoint());
+            }
+            //绘制canvas
+            if ($canvas[0].getContext) {
+                var ctx = $canvas[0].getContext('2d');
+                ctx.fillStyle = '#ffffff';
+                ctx.strokeStyle = 'rgba(255,255,255,0)';
+                ctx.lineWidth = 1 * zoom;
+                drawCanvas(ctx);
+            }
+            $canvas.on('mousemove', function (ev) {
+                ev = ev || event;
+                mouseX = ev.offsetX;
+                mouseY = ev.offsetY;
+            });
+        }
+        //随机生成一个点
+        function creatPoint() {
+            var xsKew = (Math.random() - 0.5) * zoom;//x轴偏移量
+            var ysKew = (Math.random() - 0.5) * zoom;//y轴偏移量
+            var r = ~~(Math.random() * 5 * zoom);
+            var x = ~~(Math.random() * (width - r)) + 2 * r;
+            var y = ~~(Math.random() * (height - r)) + 2 * r;
+            var point = {
+                x: x,
+                y: y,
+                xsKew: xsKew,
+                ysKew: ysKew,
+                r: r
+            }
+            return point;
+        }
+
+
+        //绘制canvas
+        function drawCanvas(ctx) {
+            ctx.clearRect(0, 0, $canvas.width(), $canvas.height());
+            $.each(pointArry, function (index) {
+                var i = index;
+                ctx.beginPath();
+                this.x += this.xsKew;
+                this.y += this.ysKew;
+                //处理边缘碰撞
+                if (this.x <= this.r || this.x >= $canvas.width() - this.r) {
+                    this.xsKew = -this.xsKew;
+                    this.x = this.x + this.xsKew;
+                }
+                if (this.y <= this.r || this.y >= $canvas.height() - this.r) {
+                    this.ysKew = -this.ysKew;
+                    this.y = this.y + this.ysKew;
+                }
+                //绘制点
+                ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI);
+                ctx.fill();
+                $.each(pointArry, function (index) {
+                    if (index != i) {
+                        drawLine(ctx, pointArry[i].x, pointArry[i].y, this.x, this.y);
+                    }
+                });
+                if (mouseX > 0 && mouseY > 0) {
+                    drawLine(ctx, mouseX, mouseY, this.x, this.y);
+                }
+            });
+            if (window.requestAnimationFrame) timer = window.requestAnimationFrame(drawCanvas.bind(this, ctx));
+            else if (window.msRequestAnimationFrame) timer = window.msRequestAnimationFrame(drawCanvas.bind(this, ctx));
+            else if (window.mozRequestAnimationFrame) timer = window.mozRequestAnimationFrame(drawCanvas.bind(this, ctx));
+            else if (window.webkitRequestAnimationFrame) timer = window.webkitRequestAnimationFrame(drawCanvas.bind(this, ctx));
+        }
+        //画线
+        function drawLine(ctx, p1x, p1y, p2x, p2y) {
+            var xDistance = Math.abs(p1x - p2x);//计算两点间的x距离
+            var yDistance = Math.abs(p1y - p2y);//计算两点间的y距离
+            var distance = Math.sqrt(xDistance * xDistance + yDistance * yDistance);
+            if (distance <= 120) {
+                ctx.fillStyle = '#ffffff';//解决窗口缩放时圆点变黑
+                ctx.strokeStyle = 'rgba(255,255,255,' + (1 - distance / 120) + ')';
+                ctx.save();
+                ctx.beginPath();
+                ctx.moveTo(p1x, p1y);
+                ctx.lineTo(p2x, p2y);
+                ctx.stroke();
+                ctx.restore();
+            }
+        }
+        //获取页面被缩放的比例
+        function getZoom() {
+            var zoom
+            zoom = window.innerWidth/ window.screen.width
+            console.log(zoom);
+            return zoom;
+        }
+    })
+</script>
