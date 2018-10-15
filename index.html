@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>index</title>
+</head>
+
+<body>
+  <h3>index</h3>
+  <button id="btn1">同域直接调用iframe方法</button>
+  <button id="btn2">跨域hash调用子页面方法</button>
+  <button id="btn3">h5跨域通讯子页面(兼容ie10以上版本)</button>
+  <p id="say"></p>
+  <iframe id="child" name="frame" src="http://192.168.1.193:8081/child.html" width="800" height="500" frameborder="0"></iframe>
+  <script>
+    var url = 'http://127.0.0.1:8020/iframe_demo/child.html'; //子页面地址
+    function say() {
+      document.getElementById('say').innerHTML = 'hello parent';
+    }
+    // hashchange
+    window.addEventListener('hashchange', function () {
+      var m = location.hash.substring(1);
+      console.log('父页面hashchange：' + m);
+      if (m === 'say') {
+        say()
+      }
+    })
+
+    // message
+    window.addEventListener("message", function (e) {
+      console.log(e)
+      if (e.data === 'say') {
+        say()
+      }
+    }, false);
+
+    // 同源直接调用
+    document.getElementById('btn1').addEventListener('click', function () {
+      frame.window.say()
+    })
+
+    // 跨域hash调用
+    document.getElementById('btn2').addEventListener('click', function () {
+      frame.location.href = url + '#say'
+    })
+
+    // h5 postmessage调用
+    document.getElementById('btn3').addEventListener('click', function () {
+      document.getElementById('child').contentWindow.postMessage('say', url)
+    })
+  </script>
+</body>
+
+</html>
