@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<style type="text/css">
+			.cover,.normal {
+				width: 100px;
+				height: 100px;
+			}
+			
+			.cover img {
+				width: 100%;
+				height: 100%;
+				/*这个属性很重要*/
+				object-fit: cover; 
+			}
+			.normal img {
+				width: 100%;
+				height: 100%;
+			}
+			.img_container {
+				width: 100px;
+				height: 100px;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+
+	<body>
+		常在图片布局中遇到固定宽高的缩略图，但固定宽高可能导致变形。2种解决方法：1.上传时做裁剪限制，裁剪比例和固定回显比例相同，工作量较大 2.css3属性做限制
+		<p>原始图片256x192</p>
+		<div class="origin">
+			<img src="./img/mm1.jpg" />
+		</div>
+		
+		<p>常规缩略图100x100</p>
+		<div class="normal">
+			<img src="./img/mm1.jpg"/>
+		</div>
+		
+		<p>fit缩略图100x100</p>
+		<div class="cover">
+			<img src="./img/mm1.jpg" />
+		</div>
+		
+		<p>overflow缩略图100x100(很明显不适用)</p>
+		<div class="img_container">
+			<img src="./img/mm1.jpg" />
+		</div>
+
+	</body>
+
+</html>
