@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			/*::selection {
+				background: aquamarine;
+				color: black;
+			}*/
+			
+			.custom-text-selection::selection {
+				background: deeppink;
+				color: white;
+			}
+			
+			.unselectable {
+				user-select: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<p>我是浏览器默认选中样式</p>
+		<p class="custom-text-selection">我是自定义选中样式</p>
+		<p class="unselectable">我无法被选中</p>
+	</body>
+
+</html>
