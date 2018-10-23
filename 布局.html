@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>使用自己的图标替换marker图标</title>
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+		<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+		<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+		<style type="text/css">
+			html,
+			body {
+				width: 100%;
+				height: 100%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="map" style="width:100%;height:100%;"></div>
+		<script type="text/javascript">
+			$(function() {
+				var map = L.map('map', {
+					center: [40, 100],
+					zoom: 4
+				});
+				// 影像
+				L.tileLayer("http://t{s}.tianditu.cn/img_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=img&tileMatrixSet=w&TileMatrix={z}&TileRow={y}&TileCol={x}&style=default&format=tiles", {
+					subdomains: ["0", "1", "2", "3", "4", "5", "6", "7"]
+				}).addTo(map);
+				// 地名标注
+				L.tileLayer("http://t{s}.tianditu.cn/cia_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=cia&tileMatrixSet=w&TileMatrix={z}&TileRow={y}&TileCol={x}&style=default&format=tiles", {
+					subdomains: ["0", "1", "2", "3", "4", "5", "6", "7"]
+				}).addTo(map);
+				// 边界
+				L.tileLayer("http://t{s}.tianditu.cn/ibo_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=ibo&tileMatrixSet=w&TileMatrix={z}&TileRow={y}&TileCol={x}&style=default&format=tiles", {
+					subdomains: ["0", "1", "2", "3", "4", "5", "6", "7"]
+				}).addTo(map);
+				// 使用用户自己的图标
+				var greenIcon = L.icon({
+					iconUrl: './img/loading.gif',
+					shadowUrl: './img/loading.gif',
+					iconSize: [38, 95], // size of the icon
+					shadowSize: [50, 64], // size of the shadow
+					iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
+					shadowAnchor: [4, 62], // the same for the shadow
+					popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
+				});
+				L.marker([40, 112], {
+					icon: greenIcon
+				}).addTo(map);
+
+				var LeafIcon = L.Icon.extend({
+					options: {
+						shadowUrl: './img/loading.gif',
+						iconSize: [38, 95],
+						shadowSize: [50, 64],
+						iconAnchor: [22, 94],
+						shadowAnchor: [4, 62],
+						popupAnchor: [-3, -76]
+					}
+				});
+				var greenIcon = new LeafIcon({
+					iconUrl: './img/mm1.jpg'
+				});
+				//      redIcon = new LeafIcon({iconUrl: './img/徽章.png'}),
+				//      orangeIcon = new LeafIcon({iconUrl: './img/徽章.png'});
+
+				L.marker([41.5, 99.09], {
+					icon: greenIcon
+				}).addTo(map).bindPopup("I am a green leaf.");
+				L.marker([41.495, 100.083], {
+					icon: redIcon
+				}).addTo(map).bindPopup("I am a red leaf.");
+				L.marker([41.49, 101.1], {
+					icon: orangeIcon
+				}).addTo(map).bindPopup("I am an orange leaf.");
+
+			});
+		</script>
+	</body>
+
+</html>
