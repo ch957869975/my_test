@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<script type="text/javascript">
+		var data =	[{
+				path: 'levelone',
+				name: '第一级',
+				iconClass: 'fa-navicon',
+				isRoot: true,
+				subMenus: [{
+					path: 'leveltwo',
+					name: '第二级',
+					iconClass: 'fa-navicon',
+					subMenus: [{
+						path: 'levelthree',
+						name: '第三级',
+						roles: ['admin'],
+						iconClass: 'fa-navicon'
+					}]
+				},
+					{
+						path: 'leveltwo_R',
+						name: '第二级_R',
+						iconClass: 'fa-navicon'
+					}]
+				},
+				{
+					path: 'user',
+					name: '用户管理',
+					roles: ['admin'],
+					iconClass: 'fa-language',
+					isRoot: true
+				},
+				{
+					path: 'dictionary',
+					name: '字典管理',
+					roles: ['admin'],
+					iconClass: 'fa-language',
+					isRoot: true
+				},
+				{
+					path: 'role',
+					name: '角色管理',
+					roles: ['admin'],
+					iconClass: 'fa-vcard',
+					isRoot: true
+				},
+				{
+					path: 'outline',
+					name: '违规管理',
+					roles: ['admin'],
+					iconClass: 'fa-exclamation-triangle',
+					isRoot: true
+				}
+			]
+
+			var f = item => {
+				if(item['subMenus']) {
+					item['subMenus'] = item['subMenus'].filter(f);
+					return true;
+				} else if(item['roles']) {
+					return item['roles'].indexOf('admin') !== -1;
+				} else {
+					return false;
+				}
+			}
+			var result = data.filter(f);
+
+			console.log(result)
+		</script>
+	</body>
+
+</html>
