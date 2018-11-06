@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+
+		<link rel="shortcut icon" href="img/logo.ico">
+		
+	</head>
+
+	<body>
+		<script type="text/javascript">
+			var data = [{
+				num: 4,
+				num2: 9,
+				children: [{
+						num: 5,
+						num2: 4,
+						children: [
+							{
+								num: 9,
+								num2: 8
+							}
+						]
+					},
+					{
+						num: 5,
+						num2: 3
+					}
+				]
+			}, {
+				num: 5,
+				num2: 4
+			}, {
+				num: 2,
+				num2: 8
+			}, {
+				num: 6,
+				num2: 2
+			}, {
+				num: 1,
+				num2: 7
+			}]
+			function f(item) {
+				console.log('item=', item)
+				if(item['children'] && item['children'].length) {
+					item['children'] = item['children'].filter(this.f)
+					return true
+				} else {
+					return(item['num'] < 5 && item['num2'] > 5)
+				}
+			}
+			console.log(data.filter(item => item.num < 5 && item.num2 > 5))
+			console.log(data.filter(f))
+		</script>
+	</body>
+
+</html>
