@@ -26,7 +26,7 @@
 
 </html>
 <script>
-    $(function () {
+//  $(function () {
         var timer = null;
         var $canvas = $('canvas');
         var width;
@@ -51,7 +51,7 @@
             $canvas.attr('height', height);
             pointArry.splice(0, pointArry.length);
             //开始先放200个点
-            for (var i = 0; i < ~~(200 * zoom); i++) {
+            for (var i = 0; i < ~~(75 * zoom); i++) {
                 pointArry.push(creatPoint());
             }
             //绘制canvas
@@ -120,7 +120,7 @@
             else if (window.mozRequestAnimationFrame) timer = window.mozRequestAnimationFrame(drawCanvas.bind(this, ctx));
             else if (window.webkitRequestAnimationFrame) timer = window.webkitRequestAnimationFrame(drawCanvas.bind(this, ctx));
         }
-        //画线
+//      //画线
         function drawLine(ctx, p1x, p1y, p2x, p2y) {
             var xDistance = Math.abs(p1x - p2x);//计算两点间的x距离
             var yDistance = Math.abs(p1y - p2y);//计算两点间的y距离
@@ -143,5 +143,5 @@
             console.log(zoom);
             return zoom;
         }
-    })
+//  })
 </script>
