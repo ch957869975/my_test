@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      console.log(parseInt('FF', 16)) // 十六进制
+      console.log(typeof NaN)
+      console.log(isNaN(NaN))
+
+      Array.prototype.multiply = function() {
+        this.forEach(currentItem => {
+          this.push(currentItem * currentItem)
+        })
+        return this
+      }
+      Number.prototype.fixedLength = function(length) {
+        return this.toFixed(length)
+      }
+      ;[1, 2, 3].multiply()
+      const s = 3
+      s.fixedLength(2)
+    </script>
+  </body>
+</html>
