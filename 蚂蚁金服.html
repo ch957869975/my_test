@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <script>
+      const magicBox = [
+        ['a', 'u', 't', 'w', 'd', 't', 'l', 't'],
+        ['t', 'u', 'u', 'a', 'z', 'q', 'n', 'q'],
+        ['z', 'h', 's', 'r', 'f', 't', 'p', 'm'],
+        ['w', 'm', 'l', 'p', 'r', 'r', 'a', 'e'],
+        ['i', 'j', 'd', 'd', 'g', 'p', 'x', 'h'],
+        ['o', 't', 'w', 'n', 'q', 's', 'b', 'v'],
+        ['e', 'q', 'r', 'k', 'm', 'q', 'd', 'l'],
+        ['q', 'b', 'g', 'v', 'x', 'l', 'f', 'e']
+      ]
+      const token = magicBox.reduce((accumulator, current, index) => {
+        let flag = 0
+        let bucket = current
+        while (bucket.length !== 1) {
+          const newBucket = []
+          bucket.forEach(value => {
+            flag = (flag + 1) % (index + 2)
+            if (flag !== 0) {
+              newBucket.push(value)
+            }
+          })
+          bucket = newBucket
+        }
+        return accumulator + bucket[0]
+      }, '')
+      console.log(token)
+    </script>
+  </body>
+</html>
