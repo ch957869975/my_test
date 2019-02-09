@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        transition: 0.2s;
+      }
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+      }
+      .page {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #fff;
+      }
+      .link {
+        width: 64px;
+        height: 64px;
+        background: url(./img/icon-link.png) no-repeat;
+        background-size: 100%;
+        position: fixed;
+        right: 10px;
+        bottom: calc(50% - 32px);
+        opacity: 0;
+      }
+      .toggleFloat {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 150px;
+        height: 150px;
+        text-align: center;
+        line-height: 150px;
+        border-radius: 135px 0 0 0;
+        background: #f00;
+        color: #fff;
+        opacity: 0;
+        z-index: 2;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="content">
+      <div class="page">
+        <p>下层页面，可以认为是微信其他的页面</p>
+        <p>点击浮窗，可以打开刚刚侧滑关闭的页面</p>
+      </div>
+      <div id="linkPage" class="page" style="background: #ccc">
+        <p>当前页面可以认为是微信浏览器的窗口</p>
+        <p>如果浏览器访问，请打开开发者工具，然后使用移动端模式。</p>
+        <p>向右滑动页面查看效果……</p>
+      </div>
+      <a href="javascript:" id="link" class="link"></a>
+      <div id="toggleFloat" class="toggleFloat">添加浮窗</div>
+    </div>
+
+    <script src="//apps.bdimg.com/libs/zepto/1.1.4/zepto.min.js"></script>
+    <script src="./js/inertia.js"></script>
+    <script>
+      new Inertia(document.getElementById('link'))
+      var data = {
+        touching: false,
+        translateX: 0,
+        isInToggleArea: false,
+        isShowLinkIcon: false
+      }
+      var linkPage = $('#linkPage')
+      var link = $('#link')
+      var toggleArea = $('#toggleFloat')
+      // 连接图标的宽高
+      var widthIconLink = link.width()
+      var heightIconLink = link.height()
+
+      // 事件绑定
+      linkPage.on({
+        touchstart: function(event) {
+          var events = event.touches[0] || event
+          // 记住坐标
+          data.posX = events.pageX
+          data.nowX = data.posX
+          // 重置移动距离
+          data.distanceX = 0
+          // 设置跟随标志量
+          data.touching = true
+
+          // 设置收缩中心点
+          var centerY = link.offset().top + heightIconLink / 2
+          var centerX = link.offset().left + widthIconLink / 2
+          data.centerX = centerX
+          data.centerY = centerY
+          linkPage.css({
+            '-webkit-clip-path': 'circle(' + window.innerHeight + 'px at ' + centerX + 'px ' + centerY + 'px)',
+            clipPath: 'circle(' + window.innerHeight + 'px at ' + centerX + 'px ' + centerY + 'px)'
+          })
+        },
+        touchmove: function(event) {
+          if (data.touching !== true) {
+            return
+          }
+
+          var events = event.touches[0] || event
+
+          // 计算出水平移动距离
+          data.nowX = events.pageX
+          var distanceX = data.nowX - data.posX
+          if (distanceX < 0) {
+            distanceX = 0
+          }
+          data.distanceX = distanceX
+
+          if (events.pageX > window.innerWidth - 150 && events.pageY > window.innerHeight - 150) {
+            data.isInToggleArea = true
+          } else {
+            data.isInToggleArea = false
+          }
+          // 设置页面跟随
+          linkPage.css({
+            transition: 'none',
+            transform: 'translateX(' + distanceX + 'px)'
+          })
+          toggleArea.css({
+            opacity: Math.log2(1 + distanceX / window.innerWidth)
+          })
+          // 阻止默认行为
+          event.preventDefault()
+        },
+        touchend: function(event) {
+          var events = event.touches[0] || event
+          if (!data.touching) return
+          var width = window.innerWidth
+          linkPage.css('transition', '')
+          if (data.distanceX < width / 2) {
+            linkPage.css({
+              transform: 'translateX(0)'
+            })
+            link.css('opacity', 0)
+            toggleArea.css({
+              opacity: 0
+            })
+          } else {
+            linkPage.css({
+              '-webkit-clip-path':
+                'circle(' +
+                heightIconLink / 2 +
+                'px at ' +
+                (data.centerX - data.distanceX) +
+                'px ' +
+                data.centerY +
+                'px)',
+              clipPath:
+                'circle(' +
+                heightIconLink / 2 +
+                'px at ' +
+                (data.centerX - data.distanceX) +
+                'px ' +
+                data.centerY +
+                'px)',
+              filter: 'grayscale(1)',
+              display: 'none'
+            })
+            toggleArea.css({
+              opacity: 0
+            })
+            if (data.isInToggleArea) {
+              link.css({
+                opacity: 1
+              })
+              data.isShowLinkIcon = true
+            }
+          }
+        }
+      })
+      // 就是个普通的居中圆形剪裁动画
+      link.on('click', function() {
+        console.log(111)
+        setTimeout(() => {
+          var width = window.innerWidth
+          var height = window.innerHeight
+          // 位置先还原
+          // 收缩大小也是按照短边宽度来
+          linkPage.css({
+            transition: 'none',
+            transform: 'translateX(0)',
+            '-webkit-clip-path': 'circle(50vw at 50vw 50vh)',
+            clipPath: 'circle(50vw at 50vw 50vh)',
+            filter: 'none'
+          })
+          // 开始放开
+          linkPage.css('transition', '')
+          linkPage.css({
+            '-webkit-clip-path': 'circle(100vh at 50vw 50vh)',
+            clipPath: 'circle(100vh at  50vw 50vh)',
+            display: 'block'
+          })
+          link.css('opacity', 0)
+        }, 500)
+      })
+    </script>
+  </body>
+</html>
