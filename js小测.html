@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 原始数组
+      let arr = [0, 1, 2, 3, 4, 5]
+
+      /**
+       *索引校验器
+       * @param {number} index 索引值
+       */
+      const indexValidator = index => {
+        if (!index) return false
+        if (!Number.isSafeInteger(index)) return false
+        if (index > arr.length - 1 || index <= 0) return false
+        return true
+      }
+
+      /**
+       *指定索引，对应数组项前移一个位置
+       * @param {number} index 索引值
+       */
+      const moveForwardOne = index => {
+        if (!indexValidator(index)) return
+        const middleVarible = arr[index - 1]
+        arr[index - 1] = arr[index]
+        arr[index] = middleVarible
+        console.log(arr)
+      }
+
+      /**
+       *指定索引，对应数组项前移动至指定位置，位置由第二个参数决定
+       * @param {number} index 索引值
+       * @param {string} position 将对应数组项移动到的位置，start 到数组最前， end 到数组最后
+       */
+      const moveToStartOrEnd = (index, position = 'start') => {
+        if (!indexValidator(index)) return
+        if (!['start', 'end'].includes(position)) position = 'start'
+        const middleVarible = arr[index]
+        arr[index] = undefined
+
+        let idx = -1
+        let ret = []
+        let retIdx = 0
+        while (++idx < arr.length) {
+          if (arr[idx] !== undefined) {
+            ret[retIdx++] = arr[idx]
+          }
+        }
+        arr = ret
+        position === 'start' ? arr.unshift(middleVarible) : arr.push(middleVarible)
+        console.log(arr)
+      }
+
+      /**
+       *指定2个索引，交换数组对应项的位置, 和第一个方法很类似
+       * @param {number} index1 索引值
+       * @param {number} index2 索引值
+       */
+      const exchangePosition = (index1, index2) => {
+        if (!indexValidator(index1) || !indexValidator(index2)) return
+        const middleVarible = arr[index1]
+        arr[index1] = arr[index2]
+        arr[index2] = middleVarible
+        console.log(arr)
+      }
+
+      exchangePosition(3, 7)
+    </script>
+  </body>
+</html>
