@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var reverse = function(x) {
+        const arr = x
+          .toLocaleString()
+          .replace(/,/g, '')
+          .split('')
+        let prefix = ''
+        if (arr[0] === '-') {
+          prefix = arr.shift()
+        }
+        const ret = prefix ? Number(arr.reverse().join('')) * -1 : Number(arr.reverse().join(''))
+        return ret > Math.pow(2, 31) - 1 || ret < Math.pow(-2, 31) ? 0 : ret
+      }
+    </script>
+  </body>
+</html>

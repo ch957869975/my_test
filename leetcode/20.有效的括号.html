@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {string} s
+       * @return {boolean}
+       */
+      var isValid = function(s) {
+        const map = {
+          '(': -1,
+          ')': 1,
+          '[': -2,
+          ']': 2,
+          '{': -3,
+          '}': 3
+        }
+        let stack = []
+        for (let i = 0; i < s.length; i++) {
+          if (map[s[i]] < 0) {
+            stack.push(s[i])
+          } else {
+            const last = stack.pop()
+            if (map[last] + map[s[i]] !== 0) return false
+          }
+        }
+        if (stack.length) return false
+        return true
+      }
+    </script>
+  </body>
+</html>
