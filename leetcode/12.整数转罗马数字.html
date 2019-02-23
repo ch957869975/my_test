@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var intToRoman = function(num) {
+        const arr = num
+          .toString()
+          .split('')
+          .reverse()
+        const [singleNumber, tenNumber, hundredNumber, thousandNumber] = arr
+        const map = {
+          thousand: ['', 'M', 'MM', 'MMM'],
+          hundred: ['', 'C', 'CC', 'CCC', 'CD', 'D', 'DC', 'DCC', 'DCCC', 'CM'],
+          ten: ['', 'X', 'XX', 'XXX', 'XL', 'L', 'LX', 'LXX', 'LXXX', 'XC'],
+          single: ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX']
+        }
+
+        const { thousand, hundred, ten, single } = map
+        return thousand[~~thousandNumber] + hundred[~~hundredNumber] + ten[~~tenNumber] + single[~~singleNumber]
+      }
+      console.log(intToRoman(3999))
+    </script>
+  </body>
+</html>
