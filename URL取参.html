@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const getParamsObj = () => {
+        let search = window.location.search
+        search = search.substr(1)
+        if (!search.replace(/\s/, '')) return {}
+        const arr = search.split(/\&/)
+        const obj = {}
+        arr.map(item => {
+          obj[item.split('=')[0]] = item.split('=')[1]
+        })
+      }
+      // const isValid = str => {
+      //   return /\d{18}|\d{17}[Xx]/.test(str)
+      // }
+    </script>
+  </body>
+</html>
