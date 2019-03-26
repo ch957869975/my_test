@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const foo = async () => {
+        return { name: 'psycho' }
+      }
+      // console.log(foo())
+      const foo2 = async () => {
+        const promise = new Promise((reslove, reject) => {
+          setTimeout(() => {
+            reslove('芬达')
+          }, 1000)
+        })
+        const ret = await promise
+        console.log(ret)
+      }
+      // foo2()
+      const foo3 = () => '芬达'
+      const foo4 = async () => {
+        const ret = await foo3()
+        console.log(ret)
+      }
+      // foo4()
+
+      ajax('login', { username, password }, ({ userId }) => {
+        ajax('getToken', { userId }, ({ token }) => {
+          ajax('getOtherInfo', { token }, res => {
+            // do something...
+          })
+        })
+      })
+      ajax('login', { username, password })
+        .then(({ userId }) => ajax('getToken', { userId }))
+        .then(({ token }) => ajax('getOtherInfo', { token }))
+        .then(res => {
+          // do something...
+        })
+
+      async function foo({ username, password }) {
+        const { userId } = await ajax('login', { username, password })
+        const { token } = await ajax('getToken', { userId })
+        const res = await ajax('getOtherInfo', { token })
+        // do something ...
+      }
+
+      function util(promise) {
+        return promise.then(data => [null, data]).catch(err => [err])
+      }
+      async function foo({ usernam, password }) {
+        let userId, token, err
+        ;[err, { userId }] = await util(ajax('login', { username, password }))
+        // 因默认数据返回是对象，所以加了解构，部分省略...
+      }
+    </script>
+  </body>
+</html>
