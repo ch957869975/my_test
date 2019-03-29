@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const caesars = str => {
+        let ret = ''
+        for (let index = 0; index < str.length; index++) {
+          const letter = str[index]
+          // console.log(letter)
+          if (/[A-Z]/.test(letter)) {
+            const unioncode = letter.charCodeAt(0)
+            ret += String.fromCharCode(unioncode + 13 > 90 ? unioncode - 13 : unioncode + 13)
+          } else {
+            ret += letter
+          }
+        }
+        return ret
+      }
+      console.log(caesars('SERR PBQR PNZC'))
+      console.log(caesars('SERR CVMMN!'))
+      console.log(caesars('SERR YBIR?'))
+      console.log(caesars('GUR DHVPX OEBJA QBT WHZCRQ BIRE GUR YNML SBK.'))
+    </script>
+  </body>
+</html>
