@@ -50,7 +50,7 @@
         console.log(e)
         e.stopPropagation()
       }
-      redNum++
+      blueNum++
       setTimeout(() => {
         render()
       }, 50)
@@ -58,7 +58,7 @@
     })
 
     document.getElementById('box').addEventListener('click', (e) => {
-      blueNum++
+      redNum++
     })
 
     document.getElementById('checkbox').addEventListener('change', () => {
