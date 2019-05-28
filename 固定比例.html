@@ -1,46 +1,41 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="UTF-8" />
+    <title></title>
+    <style type="text/css">
+      .scale10 {
+        background: #aaa;
+        width: 10%;
+        height: 0;
+        text-align: center;
+        padding-top: 10%;
+      }
 
-	<head>
-		<meta charset="UTF-8">
-		<title></title>
-		<style type="text/css">
-			.scale10 {
-				background: #aaa;
-				width: 10%;
-				height: 0;
-				text-align: center;
-				padding-top: 10%;
-			}
-			
-			.scale4_3 {
-				/*background: #aaa;*/
-				width: 20%;
-				border: 1px red solid;
-				/*height: 0;*/
-				/*text-align: center;*/
-				padding-top: 15%;
-				position: relative;
-			}
-			
-			.scale4_3>img {
-				position: absolute;
-				width: 100%;
-				height: 100%;
-				top: 0;  
-				left: 0;
-			}
-			
-		</style>
-	</head>
+      .scale4_3 {
+        /*background: #aaa;*/
+        width: 20%;
+        border: 1px red solid;
+        /*height: 0;*/
+        /*text-align: center;*/
+        padding-top: 15%;
+        position: relative;
+      }
 
-	<body>
-		<div class="scale10">
+      .scale4_3 > img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+      }
+    </style>
+  </head>
 
-		</div>
-		<div class="scale4_3">
-			<img src="img/徽章.png" />
-		</div>
-	</body>
-
+  <body>
+    <div class="scale10"></div>
+    <div class="scale4_3">
+      <img src="img/徽章.png" />
+    </div>
+  </body>
 </html>
