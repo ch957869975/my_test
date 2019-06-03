@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>测试PDF导出</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="js/html2canvas.min.js"></script>
+  <script src="js/jspdf.js"></script>
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    #page ul {
+      padding: 0;
+      list-style: none;
+    }
+
+    #page li {
+      line-height: 110px;
+      color: #fff;
+      padding-left: 10px;
+    }
+
+    .c0 {
+      background-color: #ea644a;
+    }
+
+    .c1 {
+      background-color: #f1a325;
+    }
+
+    .c2 {
+      background-color: #38b03f;
+    }
+
+    .c3 {
+      background-color: #03b8cf;
+    }
+
+    .c4 {
+      background-color: #bd7b46;
+    }
+
+    .c5 {
+      background-color: #8666b8;
+    }
+  </style>
+  <script>
+    function exportPdf() {
+      var element = document.getElementById("page");
+      html2canvas(element, {
+        logging: false
+      }).then(function (canvas) {
+        var pdf = new jsPDF('p', 'mm', 'a4');    //A4纸，纵向
+        var ctx = canvas.getContext('2d'),
+          a4w = 190, a4h = 277,    //A4大小，210mm x 297mm，四边各保留10mm的边距，显示区域190x277
+          imgHeight = Math.floor(a4h * canvas.width / a4w),    //按A4显示比例换算一页图像的像素高度
+          renderedHeight = 0;
+
+        while (renderedHeight < canvas.height) {
+          var page = document.createElement("canvas");
+          page.width = canvas.width;
+          page.height = Math.min(imgHeight, canvas.height - renderedHeight);//可能内容不足一页
+
+          //用getImageData剪裁指定区域，并画到前面创建的canvas对象中
+          page.getContext('2d').putImageData(ctx.getImageData(0, renderedHeight, canvas.width, Math.min(imgHeight, canvas.height - renderedHeight)), 0, 0);
+          pdf.addImage(page.toDataURL('image/jpeg', 1.0), 'JPEG', 10, 10, a4w, Math.min(a4h, a4w * page.height / page.width));    //添加图像到页面，保留10mm边距
+
+          renderedHeight += imgHeight;
+          if (renderedHeight < canvas.height)
+            pdf.addPage();//如果后面还有内容，添加一个空页
+          delete page;
+        }
+        pdf.save('content.pdf');
+      });
+    }
+
+    function generateData() {
+      var html = [];
+      html[html.length] = '<ul>';
+      for (var i = 0; i < 20; ++i) {
+        html[html.length] = '<li class="c';
+        html[html.length] = i % 6;
+        html[html.length] = '">这是第';
+        html[html.length] = i;
+        html[html.length] = '行</li>';
+      }
+      html[html.length] = '</ul>';
+      document.getElementById('page').innerHTML = html.join('');
+    }
+  </script>
+</head>
+
+<body onload="generateData()">
+  <button onclick="exportPdf()">导出pdf</button>
+  <div id="page"></div>
+</body>
+
+</html>
