@@ -56,9 +56,9 @@
       html2canvas(element, {
         logging: false
       }).then(function (canvas) {
-        var pdf = new jsPDF('p', 'mm', 'a4');    //A4纸，纵向
+        var pdf = new jsPDF('p', 'pt', 'a4');    //A4纸，纵向
         var ctx = canvas.getContext('2d'),
-          a4w = 190, a4h = 277,    //A4大小，210mm x 297mm，四边各保留10mm的边距，显示区域190x277
+          a4w = 538.5, a4h = 785,    //A4大小，210mm x 297mm，四边各保留10mm的边距，显示区域190x277
           imgHeight = Math.floor(a4h * canvas.width / a4w),    //按A4显示比例换算一页图像的像素高度
           renderedHeight = 0;
 
