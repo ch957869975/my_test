@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <script src="./js/deque.js"></script>
+  <script>
+    function palindromeChecker(string) {
+      // 空字符串为合法回文串
+      if (typeof string === 'string' && !string) return true
+      const isValid = !!string
+      if (!isValid) return false
+      const deque = new Deque()
+      // 转换小写，过滤空字符
+      string = string.toLowerCase().split(' ').join('')
+      let isEqual = true
+      let fisrtString, lastString
+      for (let i = 0; i < string.length; i++) {
+        const codeAt = string.charCodeAt(i)
+        if ((codeAt > 47 && codeAt < 58) || (codeAt > 96 && codeAt < 123)) {
+          deque.addBack(string[i])
+        }
+      }
+      while (deque.size() > 1 && isEqual) {
+        fisrtString = deque.removeFront()
+        lastString = deque.removeBack()
+        if (fisrtString !== lastString) {
+          return false
+        }
+      }
+      return isEqual
+    }
+    console.log(palindromeChecker("A man, a plan, a canal: Panama"))
+    // console.log(palindromeChecker('control'))
+    // console.log(palindromeChecker('level'))
+  </script>
+</body>
+
+</html>

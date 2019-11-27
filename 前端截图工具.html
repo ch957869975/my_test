@@ -1,34 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Document</title>
-    <style>
-      button {
-        width: 100px;
-        height: 28px;
-        margin: 50px;
-      }
-      iframe {
-        display: block;
-        border: 1px red solid;
-        width: 500px;
-        height: 500px;
-      }
-    </style>
-  </head>
-  <body>
-    <button id="saveimg" type="button">截图</button>
-    <iframe src="https://www.baidu.com" frameborder="0"></iframe>
-    <div id="imgprev"></div>
-    <script src="./js/kss.js"></script>
-    <script>
-      var kss = new kscreenshot({ key: 65 })
-      console.log(kss)
-      document.querySelector('button').addEventListener('click', () => {
-        kss.start()
-      })
-    </script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Document</title>
+  <style>
+    button {
+      width: 100px;
+      height: 28px;
+      margin: 50px;
+    }
+
+    iframe {
+      display: block;
+      border: 1px red solid;
+      width: 500px;
+      height: 500px;
+    }
+  </style>
+</head>
+
+<body>
+  <button id="saveimg" type="button">截图</button>
+  <div id="imgprev"></div>
+  <script src="./js/kss.js"></script>
+  <script>
+    var kss = new kscreenshot({ key: 65 })
+    console.log(kss)
+    document.querySelector('button').addEventListener('click', () => {
+      kss.start()
+    })
+  </script>
+</body>
+
 </html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    let arr1 = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }]
+    let arr2 = [{ id: 1 }, { id: 2 }, { id: 3 }]
+
+    let retArr = arr1.filter(item => !arr2.map(child => child.id).includes(item.id))
+    console.log(retArr)
+  </script>
+</body>
+
+</html>
