@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="file" name="" id="file" />
+    <script src="./js/jquery.js"></script>
+    <script>
+      function onchange(e) {
+        console.log(e.target.files)
+        const file = e.target.files[0]
+        let formdata = new FormData()
+        formdata.append('appId', 'smartCourt')
+        formdata.append('bucketName', 'execution-record')
+        formdata.append('fileName', file.name)
+        formdata.append('spaceSize', file.size)
+        formdata.append('contentType', file.type)
+        formdata.append('hash', '2063c1608d6e0baf80249c42e2be5804')
+        formdata.append('expireTime', '2019-12-04 00:00:00')
+        formdata.append('multipartFile', e.target.files[0])
+        console.log(formdata)
+        $.post({
+          url: 'http://172.16.6.141:1402/dfs/file/upload',
+          data: formdata,
+          processData: false,
+          type: 'post',
+          success: res => {
+            console.log(res)
+          },
+          contentType: 'multipart/form-data',
+          error: e => {
+            console.log('error', e)
+          }
+        })
+      }
+      file.onchange = onchange
+    </script>
+  </body>
+</html>

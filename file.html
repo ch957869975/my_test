@@ -1,15 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="file" id="file" />
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-</head>
-
-<body>
-  <input type="file" name="" id="file">
-</body>
-
+    <script>
+      var file = document.getElementById("file");
+      file.addEventListener("change", e => {
+        console.log(e);
+        console.log(file);
+        var reader = new FileReader();
+        reader.onload = function(evt) {
+          console.log(evt.target.result);
+        };
+        reader.readAsDataURL(e.target.files[0]);
+      });
+    </script>
+  </body>
 </html>

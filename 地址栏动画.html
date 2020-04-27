@@ -7,16 +7,21 @@
     <title>Document</title>
   </head>
   <body>
+    <video
+      autoplay
+      controls
+      src="https://gitee.com/fenda-tz/blog-pic/raw/master/photos/2019-12-12_郭德纲.mp4"
+    ></video>
     <script>
-      var f = ['🌑', '🌒', '🌓', '🌔', '🌝', '🌖', '🌗', '🌘']
+      var f = ["🌑", "🌒", "🌓", "🌔", "🌝", "🌖", "🌗", "🌘"];
 
       function loop() {
-        location.hash = f[Math.floor((Date.now() / 100) % f.length)]
-        document.title = f[Math.floor((Date.now() / 100) % f.length)]
-        setTimeout(loop, 50)
+        location.hash = f[Math.floor((Date.now() / 100) % f.length)];
+        document.title = f[Math.floor((Date.now() / 100) % f.length)];
+        setTimeout(loop, 50);
       }
 
-      loop()
+      loop();
     </script>
   </body>
 </html>
